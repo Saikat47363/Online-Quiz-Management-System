@@ -11,4 +11,14 @@ export class teachersService{
     addteachers(teachers:object):object{
         return teachers;
     }
+
+    deleteteachers(id: number): string {
+        
+        return `teacher with ID ${id} has been deleted`;
+    }
+
+    editteachers(id: number, updatedData: object): string {
+       
+        return `teacher with ID ${id} has been edited`;
+    }
 }

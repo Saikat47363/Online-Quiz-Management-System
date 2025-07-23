@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query ,Delete,Put,Param} from "@nestjs/common";
 import { teachersService } from "./teachers.service";
 
 @Controller("teachers")
@@ -10,6 +10,7 @@ export class teachersController{
     getteachers(){
         return this.teachersService.getteachers();
     }
+    @Get()
     getteachersbyNameandID(@Query('name') name:string ,@Query('id') id:number): object {
 return this.teachersService.getteachersByNameandID(name,id);
     }
@@ -18,4 +19,16 @@ return this.teachersService.getteachersByNameandID(name,id);
    addteachers(@Body() teachersdata: object)  : object{
     return this.teachersService.addteachers(teachersdata);
    }
+
+   @Delete('delete/:id')
+    deleteteachers(@Param('id') id: number): String {
+        return this.teachersService.deleteteachers(id);
+    }
+    
+
+
+    @Put('edit/:id')
+    editteachers(@Param('id') id: number, @Body() updatedData: object): String {
+        return this.teachersService.editteachers(id, updatedData);
+    }
 }
