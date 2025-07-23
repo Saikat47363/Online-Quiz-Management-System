@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { studentsService } from "./students.service";
 
 @Controller("students")
@@ -18,4 +18,16 @@ return this.studentsService.getstudentsByNameandID(name,id);
    addstudents(@Body() studentsdata: object)  : object{
     return this.studentsService.addstudents(studentsdata);
    }
+  
+  
+    @Delete('delete/:id')
+    deletestudents(@Param('id') id: number): String {
+        return this.studentsService.deletestudents(id);
+    }
+
+
+    @Put('edit/:id')
+    editstudents(@Param('id') id: number, @Body() updatedData: object): String {
+        return this.studentsService.editstudents(id, updatedData);
+    }
 }
