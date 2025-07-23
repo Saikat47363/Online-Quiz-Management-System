@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { AdminService } from "./admin.service";
 
 @Controller("admin")
@@ -18,4 +18,18 @@ return this.adminService.getAdminByNameandID(name,id);
    addAdmin(@Body() admindata: object)  : object{
     return this.adminService.addAdmin(admindata);
    }
+   @Delete('delete/:id')
+    deleteAdmin(@Param('id') id: number): String {
+        return this.adminService.deleteAdmin(id);
+    }
+    
+    @Delete('deleteAll')
+    declareAllAdmins(@Param('id')id :number): String {
+        return "checking delete all admins";
+    }
+
+    @Put('edit/:id')
+    editAdmin(@Param('id') id: number, @Body() updatedData: object): String {
+        return this.adminService.editAdmin(id, updatedData);
+    }
 }

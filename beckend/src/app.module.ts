@@ -5,6 +5,10 @@ import { teachersModule } from './Teachers/teachers.module';
 
 @Module({
   imports: [teachersModule],
+import { AdminModule } from './Admin/admin.module';
+
+@Module({
+  imports: [AdminModule],
   controllers: [AppController],
   providers: [AppService],
 })

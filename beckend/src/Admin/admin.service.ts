@@ -11,4 +11,13 @@ export class AdminService{
     addAdmin(admin:object):object{
         return admin;
     }
+    deleteAdmin(id: number): string {
+        
+        return `Admin with ID ${id} has been deleted`;
+    }
+
+    editAdmin(id: number, updatedData: object): string {
+       
+        return `Admin with ID ${id} has been edited`;
+    }
 }
