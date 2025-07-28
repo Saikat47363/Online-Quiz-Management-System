@@ -1,16 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import {Body,Controller,Delete,Get,Param,Post,Put,Query,} from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateAdminDto } from './dto/admin.dto';
- 
+import { ValidationPipe } from "@nestjs/common";
 @Controller('admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
@@ -29,7 +20,7 @@ export class AdminController {
   }
  
   @Post('addadmin')
-  addAdmin(@Body() admindata: CreateAdminDto): object {
+  addAdmin(@Body(new ValidationPipe()) admindata: CreateAdminDto): object {
     return this.adminService.addAdmin(admindata);
   }
  
