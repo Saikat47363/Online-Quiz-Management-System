@@ -22,10 +22,16 @@
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
+<<<<<<< HEAD
     "@nestjs/platform-express": "^11.1.5",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "multer": "^2.0.2",
+=======
+    "@nestjs/platform-express": "^11.0.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+>>>>>>> 92edbabdb8a163cd4b6521e874985abf58845f20
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
