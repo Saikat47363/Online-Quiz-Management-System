@@ -1,5 +1,7 @@
 import { Body, Controller, Get, Post, Query ,Delete,Put,Param} from "@nestjs/common";
 import { teachersService } from "./teachers.service";
+import { CreateTeacherDto } from "./dto/teacher.dto";
+import { ValidationPipe } from "@nestjs/common";
 
 @Controller("teachers")
 export class teachersController{
@@ -15,10 +17,11 @@ export class teachersController{
 return this.teachersService.getteachersByNameandID(name,id);
     }
 
-    @Post("addteachers")
-   addteachers(@Body() teachersdata: object)  : object{
-    return this.teachersService.addteachers(teachersdata);
-   }
+@Post("addteachers")
+    addteachers(@Body(new ValidationPipe()) teachersdata: CreateTeacherDto): object {
+        return this.teachersService.addteachers(teachersdata);
+    }
+
 
    @Delete('delete/:id')
     deleteteachers(@Param('id') id: number): String {
