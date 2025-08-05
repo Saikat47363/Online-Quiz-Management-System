@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
 <<<<<<< HEAD
     "@nestjs/platform-express": "^11.1.5",
@@ -29,11 +30,17 @@
     "multer": "^2.0.2",
 =======
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/typeorm": "^11.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+<<<<<<< HEAD
+    "pg": "^8.16.3",
+=======
 >>>>>>> 92edbabdb8a163cd4b6521e874985abf58845f20
+>>>>>>> 5f8752b0b49f8935624a0ef16ebe80ee1b74fdea
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.25"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
