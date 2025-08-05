@@ -1,24 +1,43 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, IsNull } from 'typeorm';
+import { Students } from './students.entity';
 
 @Injectable()
-export class studentsService{
-    getstudents():string {
-        return "All students";
-    }
-      getstudentsByNameandID(name:string,id:number): object{
-        return {name:name,id:id}
-    }
-    addstudents(students:object):object{
-        return students;
-    }
-    deletestudents(id: number): string {
-        return `Student with ID ${id} has been deleted`;
-    }
+export class studentsService {
+  constructor(
+    @InjectRepository(Students)
+    private studentsRepo: Repository<Students>,
+  ) {}
 
-  
-    editstudents(id: number, updatedData: object): string {
-        return `Student with ID ${id} has been edited`;
-    }
+  async getstudents(): Promise<Students[]> {
+    return await this.studentsRepo.find();
+  }
 
+  async getstudentsByNameandID(name: string, id: number): Promise<object> {
+    return { name, id };
+  }
 
+  async getstudentsWithNullName(): Promise<Students[]> {
+    return await this.studentsRepo.find({
+      where: {
+        fullName: IsNull(),
+      },
+    });
+  }
+
+  async addstudents(students: Partial<Students>): Promise<Students> {
+    const student = this.studentsRepo.create(students);
+    return await this.studentsRepo.save(student);
+  }
+
+  async deletestudents(id: number): Promise<string> {
+    await this.studentsRepo.delete(id);
+    return `Student with ID ${id} has been deleted`;
+  }
+
+  async editstudents(id: number, updatedData: Partial<Students>): Promise<string> {
+    await this.studentsRepo.update(id, updatedData);
+    return `Student with ID ${id} has been edited`;
+  }
 }

@@ -1,11 +1,16 @@
-
-import { Module } from "@nestjs/common";
-import { studentsController } from "./students.controller";
-import { studentsService } from "./students.service";
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm'; 
+import { studentsController } from './students.controller';
+import { studentsService } from './students.service';
+import { Students } from './students.entity';
+import { PdfFilePipe } from './pipes/pdf_file.pipe'; 
 
 @Module({
-    imports: [],
-    controllers: [studentsController],
-    providers: [studentsService],
+  imports: [
+    TypeOrmModule.forFeature([Students]), 
+  ],
+  controllers: [studentsController],
+  providers: [studentsService, PdfFilePipe], 
 })
-export class studentsModule{}
+export class studentsModule {}
+

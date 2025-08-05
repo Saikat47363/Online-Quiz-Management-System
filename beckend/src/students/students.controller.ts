@@ -1,45 +1,96 @@
 import {
-  Body,Controller,Delete,Get,Param,Post,Put,Query,UploadedFile,UseInterceptors,UsePipes,ValidationPipe,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { studentsService } from './students.service';
 import { CreateStudentDto } from './dto/students.dto';
 import { PdfFilePipe } from './pipes/pdf_file.pipe';
-
-
- 
+import { Students } from './students.entity';
 
 @Controller('students')
 export class studentsController {
   constructor(private readonly studentsService: studentsService) {}
 
+  
   @Get('all')
-  getstudents() {
-    return this.studentsService.getstudents();
+  async getstudents(): Promise<Students[]> {
+    return await this.studentsService.getstudents();
   }
+
 
   @Get()
-  getstudentsbyNameandID(@Query('name') name: string, @Query('id') id: number): object {
-    return this.studentsService.getstudentsByNameandID(name, id);
+  async getstudentsbyNameandID(
+    @Query('name') name: string,
+    @Query('id') id: number
+  ): Promise<object> {
+    return await this.studentsService.getstudentsByNameandID(name, id);
   }
 
+ 
+  @Get('null-fullnames')
+  async getstudentsWithNullName(): Promise<Students[]> {
+    return await this.studentsService.getstudentsWithNullName();
+  }
+
+ 
   @Post('addstudents')
   @UseInterceptors(FileInterceptor('file'))
   @UsePipes(new ValidationPipe({ whitelist: true }))
-  addstudents(
+  async addstudents(
     @Body() studentsdata: CreateStudentDto,
     @UploadedFile(PdfFilePipe) file: Express.Multer.File
-  ): object {
-    return this.studentsService.addstudents({ ...studentsdata, file });
+  ): Promise<Students> {
+    const dataToSave = {
+      fullName: studentsdata.fullName,
+      phone: parseInt(studentsdata.phone),
+      isActive: true,
+    };
+
+    return await this.studentsService.addstudents(dataToSave);
   }
 
+  
   @Delete('delete/:id')
-  deletestudents(@Param('id') id: number): string {
-    return this.studentsService.deletestudents(id);
+  async deletestudents(@Param('id') id: number): Promise<string> {
+    return await this.studentsService.deletestudents(id);
   }
 
+  
   @Put('edit/:id')
-  editstudents(@Param('id') id: number, @Body() updatedData: object): string {
-    return this.studentsService.editstudents(id, updatedData);
+  async editstudents(
+    @Param('id') id: number,
+    @Body() updatedData: Partial<Students>
+  ): Promise<string> {
+    return await this.studentsService.editstudents(id, updatedData);
+  }
+
+  
+  @Put('update-phone/:id')
+  async updatePhoneNumber(
+    @Param('id') id: number,
+    @Body('phone') phone: string
+  ): Promise<string> {
+    
+    if (!phone || !/^01\d{9}$/.test(phone)) {
+      throw new BadRequestException(
+        'Invalid phone number. Must start with 01 and be 11 digits.'
+      );
+    }
+
+    return await this.studentsService.editstudents(id, {
+      phone: parseInt(phone),
+    });
   }
 }
